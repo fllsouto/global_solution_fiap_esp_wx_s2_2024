@@ -20,8 +20,8 @@ Por: Professor Fellipe Souto.
 - [Especificação da API](#especificação-da-api)
   - [API de Clientes](#api-de-clientes)
   - [API de Instalações](#api-de-instalações)
-  - [API de Contratos](#api-de-contratos)
-  - [API de Registro de Consumo \& Registro de Produção](#api-de-registro-de-consumo--registro-de-produção)
+  - [API de Contratos (WIP)](#api-de-contratos-wip)
+  - [API de Registro de Consumo \& Registro de Produção (WIP)](#api-de-registro-de-consumo--registro-de-produção-wip)
 - [Diretrizes para entrega do trabalho:](#diretrizes-para-entrega-do-trabalho)
 - [Dicas e Considerações](#dicas-e-considerações)
 - [Atualizações](#atualizações)
@@ -162,7 +162,7 @@ Cada entidade terá um conjunto de regras de negócio para funcionar, espera-se 
 }
 ```
 
-O sistema deverá lidar com erros de leitura, como leituras que vieram fora de ordem. Para calcular o consumo mensal basta subtrair a primeira leitura do mês da última
+O sistema deverá lidar com erros de leitura, como leituras que vieram fora de ordem. Para calcular o consumo mensal basta subtrair a primeira leitura do mês da última.
 
 ## Regras de negócio: Registro de Geração
 
@@ -383,9 +383,9 @@ OUTPUT SCHEMA:
 }
 ```
 
-## API de Contratos
+## API de Contratos (WIP)
 
-## API de Registro de Consumo & Registro de Produção
+## API de Registro de Consumo & Registro de Produção (WIP)
 
 # Diretrizes para entrega do trabalho:
 
@@ -416,7 +416,7 @@ Serão aceitos grupos de 1 a 4 pessoas. A correção do código será feita leva
 
 # Atualizações
 
-- 11/10: Publicação versão 1
+- 12/11: Publicação versão 1
 
 
 # Referências úteis

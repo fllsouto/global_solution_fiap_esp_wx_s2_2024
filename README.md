@@ -62,7 +62,7 @@ Um cliente representa uma pessoa física ou jurídica que tenha um contrato de i
   - ex: 
     - João da Silva; 
     - Gráficas Tamarindo S.A
-- Identificador cliente: Identificador único do tipo UUID que identifica unicamente um cliente de forma global e não previsível
+- Identificador cliente UUID: Identificador único do tipo UUID que identifica unicamente um cliente de forma global e não previsível
   - ex:
     - 7da41106-5109-45f4-8d09-9ca405c33e5c
     - 84b4b063-58a4-4dab-bf4f-fd13954c328c
@@ -85,7 +85,7 @@ Um cliente representa uma pessoa física ou jurídica que tenha um contrato de i
 
 Uma instalação representa um único medidor SunnyMeter instalado. Nas propriedades do cliente.
 
-- Número instalação: Identificador único do tipo UUID que identifica unicamente uma instalação de forma global e não previsível
+- Número instalação UUID: Identificador único do tipo UUID que identifica unicamente uma instalação de forma global e não previsível
   - ex:
     - 7da41106-5109-45f4-8d09-9ca405c33e5c
     - 84b4b063-58a4-4dab-bf4f-fd13954c328c
@@ -103,17 +103,18 @@ Uma instalação representa um único medidor SunnyMeter instalado. Nas propried
 
 Um contrato é a combinação entre um cliente ativo e uma instalação ativa.
 
-- Id do cliente: Identificador único de um cliente (Chave estrangeira)
-- Número da instalação: Identificador único do tipo UUID que representa a instalação (Chave estrangeira)
+- Identificador cliente UUID: Identificador único de um cliente (Chave estrangeira)
+- Número da instalação UUID: Identificador único do tipo UUID que representa a instalação (Chave estrangeira)
 - Data de início: Data inicial do contrato
 - Duração contrato: A duração do contrato em dias.
 - Ativo: Flag booleana que diz se o contrato está ativo ou não
+- Identificador contrato UUID: Identificador único do tipo UUID que representa o contrato.
 
 ## Entidade: Registro de Consumo
 
 Um registro de consumo representa quanto que um cliente gastou de energia elétrica até dado momento.
 
-- Número instalação: Identificador único do tipo UUID que identifica unicamente uma instalação de forma global e não previsível (Chave estrangeira)
+- Identificador contrato UUID: Identificador único do tipo UUID que identifica unicamente um contrato de forma global e não previsível (Chave estrangeira)
 - Consumo kWh: Número de ponto-flutuante positivo que representa quanto que o cliente gastou de energia elétrica até aquele dado momento em kiloWatt/hora.
 - Medição Timestamp: Marcação de tempo de quando a medição foi feita, deve seguir o padrão Unix Timestamp
 
@@ -121,7 +122,7 @@ Um registro de consumo representa quanto que um cliente gastou de energia elétr
 
 Um registro de produção representa quanto que um cliente produziu de energia elétrica até dado momento.
 
-- Número instalação: Identificador único do tipo UUID que identifica unicamente uma instalação de forma global e não previsível (Chave estrangeira)
+- Identificador contrato UUID: Identificador único do tipo UUID que identifica unicamente um contrato de forma global e não previsível (Chave estrangeira)
 - Produção KWh: Número de ponto-flutuante positivo que representa quanto que o cliente gerou de energia elétrica até aquele dado momento em Kilowatss/hora.
 - Medição Timestamp: Marcação de tempo de quando a medição foi feita, deve seguir o padrão Unix Timestamp
 
@@ -417,6 +418,7 @@ Serão aceitos grupos de 1 a 4 pessoas. A correção do código será feita leva
 # Atualizações
 
 - 12/11: Publicação versão 1
+- 13/11: Atualizado especificação das Entidades Cliente, Instalação e Contrato
 
 
 # Referências úteis

@@ -19,9 +19,24 @@ Por: Professor Fellipe Souto.
   - [Regras de negócio: Registro de Geração](#regras-de-negócio-registro-de-geração)
 - [Especificação da API](#especificação-da-api)
   - [API de Clientes](#api-de-clientes)
+    - [POST /clientes](#post-clientes)
+    - [GET /clientes](#get-clientes)
+    - [GET /clientes/\<cliente\_uuid\>](#get-clientescliente_uuid)
+    - [DELETE /clientes/\<cliente\_uuid\>](#delete-clientescliente_uuid)
   - [API de Instalações](#api-de-instalações)
-  - [API de Contratos (WIP)](#api-de-contratos-wip)
-  - [API de Registro de Consumo \& Registro de Produção (WIP)](#api-de-registro-de-consumo--registro-de-produção-wip)
+    - [POST /instalacoes](#post-instalacoes)
+    - [GET /instalacoes](#get-instalacoes)
+    - [GET /instalacoes/\<instalacao\_uuid\>](#get-instalacoesinstalacao_uuid)
+    - [DELETE /instalacoes/\<instalacao\_uuid\>](#delete-instalacoesinstalacao_uuid)
+  - [API de Contratos](#api-de-contratos)
+    - [POST /contratos](#post-contratos)
+    - [GET /contratos/\<contrato\_uuid\>](#get-contratoscontrato_uuid)
+    - [DELETE /contratos/\<contrato\_uuid\>](#delete-contratoscontrato_uuid)
+  - [API de Consumo](#api-de-consumo)
+    - [POST /consumo](#post-consumo)
+    - [GET /consumo/\<instalacao\_uuid\>](#get-consumoinstalacao_uuid)
+  - [API de Registro de Produção](#api-de-registro-de-produção)
+    - [POST /producao](#post-producao)
 - [Diretrizes para entrega do trabalho:](#diretrizes-para-entrega-do-trabalho)
 - [Dicas e Considerações](#dicas-e-considerações)
 - [Atualizações](#atualizações)
@@ -49,8 +64,8 @@ Sua tarefa nesse projeto será desenvolver uma aplicação Java utilizando Sprin
 1. Cadastrar, listar, buscar e deletar clientes
 2. Cadastrar, listar, buscar e deletar instalações
 3. Cadastrar, listar, buscar e deletar contratos
-4. Calcular o consumo de energia mensal em kW/h de um cliente
-5. Calcular a produção de energia mensal em kW/h de um cliente
+4. Cadastrar e calcular o consumo de energia mensal em kW/h de um cliente
+5. Cadastrar a produção de energia mensal em kW/h de um cliente
 
 Cada entidade será apresentada e detalhada a seguir.
 
@@ -83,7 +98,7 @@ Um cliente representa uma pessoa física ou jurídica que tenha um contrato de i
 
 ## Entidade: Instalação
 
-Uma instalação representa um único medidor SunnyMeter instalado. Nas propriedades do cliente.
+Uma instalação representa um único medidor SunnyMeter instalado nas propriedades do cliente.
 
 - Número instalação UUID: Identificador único do tipo UUID que identifica unicamente uma instalação de forma global e não previsível
   - ex:
@@ -173,12 +188,16 @@ O sistema deverá lidar com erros de leitura, como leituras que vieram fora de o
 
 ## API de Clientes
 
+### POST /clientes
+
 ```plain
 URL: /clientes
 MÉTODO: POST
 DESCRIÇÃO: Cria um novo cliente a partir de um JSON
 
 EXEMPLO 1:
+POST /clientes
+
 INPUT SCHEMA:
 {
     "nome": "joão da silva",
@@ -200,6 +219,8 @@ OUTPUT SCHEMA:
 }
 
 EXEMPLO 2:
+POST /clientes
+
 INPUT SCHEMA:
 {
     "nome": "Gráficas Tamarindo S.A",
@@ -219,12 +240,18 @@ OUTPUT SCHEMA:
     "ativo": "true",
     "tipo": "PJ"
 }
+```
 
+### GET /clientes
+
+```plain
 URL: /clientes
 MÉTODO: GET
 DESCRIÇÃO: Lista todos os clientes cadastrados
 
-EXEMPLO 1:
+EXEMPLO:
+GET /clientes
+
 OUTPUT SCHEMA:
 [
     {
@@ -247,14 +274,18 @@ OUTPUT SCHEMA:
     },
     ...
 ]
+```
 
-URL: /clientes/<cliente-uuid>
+### GET /clientes/<cliente_uuid>
+
+```plain
+URL: /clientes/<cliente_uuid>
 MÉTODO: GET
 DESCRIÇÃO: Busca um cliente específico pelo seu cliente_uuid
 
 EXEMPLO 1:
+GET /clientes/84b4b063-58a4-4dab-bf4f-fd13954c328c
 
-URL: /clientes/84b4b063-58a4-4dab-bf4f-fd13954c328c
 OUTPUT SCHEMA:
 [
     {
@@ -269,17 +300,23 @@ OUTPUT SCHEMA:
 ]
 
 EXEMPLO 2:
-URL: /clientes/123
+GET /clientes/123
+
 OUTPUT SCHEMA:
 []
 
+```
+
+### DELETE /clientes/<cliente_uuid>
+
+```plain
 URL: /clientes/<cliente-uuid>
 MÉTODO: DELETE
 DESCRIÇÃO: Deleta logicamente um cliente específico através de seu cliente_uuid
 
 EXEMPLO 1:
+DELETE /clientes/84b4b063-58a4-4dab-bf4f-fd13954c328c
 
-URL: /clientes/84b4b063-58a4-4dab-bf4f-fd13954c328c
 OUTPUT SCHEMA:
 {
     "cliente_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
@@ -295,12 +332,16 @@ OUTPUT SCHEMA:
 
 ## API de Instalações
 
+### POST /instalacoes
+
 ```plain
 URL: /instalacoes
 MÉTODO: POST
 DESCRIÇÃO: Cria uma nova instalacao a partir de um JSON
 
 EXEMPLO 1:
+POST /instalacoes
+
 INPUT SCHEMA:
 {
     "endereco": "Rua das Flores, 41",
@@ -316,6 +357,8 @@ OUTPUT SCHEMA:
 }
 
 EXEMPLO 2:
+POST /instalacoes
+
 INPUT SCHEMA:
 {
     "endereco": "Avenida Lins da Cunha, 51 4 Andar, Sala 10",
@@ -326,33 +369,47 @@ OUTPUT SCHEMA:
 {
     "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
     "endereco": "Avenida Lins da Cunha, 51 4 Andar, Sala 10",
-    "cep": "010034-000"
+    "cep": "010034-000",
     "ativo": "true",
 }
+```
+
+### GET /instalacoes
+
+```plain
 
 URL: /instalacoes
 MÉTODO: GET
-DESCRIÇÃO: Lista todos as instalacoes cadastrados
+DESCRIÇÃO: Lista todas as instalacoes cadastrados
 
 EXEMPLO 1:
+GET /instalacoes
+
 OUTPUT SCHEMA:
 [
   {
     "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
     "endereco": "Avenida Lins da Cunha, 51 4 Andar, Sala 10",
-    "cep": "010034-000"
+    "cep": "010034-000",
     "ativo": "true",
     }
     ...
 ]
 
-URL: /instalacoes/<instalacao-uuid>
+
+```
+
+### GET /instalacoes/<instalacao_uuid>
+
+```plain
+
+URL: /instalacoes/<instalacao_uuid>
 MÉTODO: GET
 DESCRIÇÃO: Busca uma instalacao específica pelo seu instalacao_uuid
 
 EXEMPLO 1:
+GET /instalacoes/84b4b063-58a4-4dab-bf4f-fd13954c328c
 
-URL: /instalacoes/84b4b063-58a4-4dab-bf4f-fd13954c328c
 OUTPUT SCHEMA:
 [
     {
@@ -364,17 +421,22 @@ OUTPUT SCHEMA:
 ]
 
 EXEMPLO 2:
-URL: /instalacoes/123
+GET /instalacoes/123
+
 OUTPUT SCHEMA:
 []
+```
 
+### DELETE /instalacoes/<instalacao_uuid>
+
+```plain
 URL: /instalacaos/<instalacao-uuid>
 MÉTODO: DELETE
 DESCRIÇÃO: Deleta logicamente uma instalação específica através de seu instalacao_uuid
 
 EXEMPLO 1:
+DELETE /instalacaos/84b4b063-58a4-4dab-bf4f-fd13954c328c
 
-URL: /instalacaos/84b4b063-58a4-4dab-bf4f-fd13954c328c
 OUTPUT SCHEMA:
 {
     "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
@@ -384,9 +446,265 @@ OUTPUT SCHEMA:
 }
 ```
 
-## API de Contratos (WIP)
+## API de Contratos
 
-## API de Registro de Consumo & Registro de Produção (WIP)
+### POST /contratos
+
+```plain
+URL: /contratos
+MÉTODO: POST
+DESCRIÇÃO: Cria um novo contrato entre uma instalação e um cliente a partir de um JSON
+
+EXEMPLO 1:
+POST /contratos
+
+INPUT SCHEMA:
+{
+    "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "cliente_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "timeframe": 180
+}
+
+OUTPUT SCHEMA:
+{
+    "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "cliente_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "contrato_uuid": "10ea3582-000d-4546-afdf-8677bc58e606",
+    "timeframe": 180,
+    "status": "Ativo",
+    "contrato_inicio_timestamp: "1728990000", // Outubro 15 2024 11:00:00
+}
+
+EXEMPLO 2:
+POST /contratos
+
+INPUT SCHEMA:
+{
+    "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "cliente_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "timeframe": 45
+}
+
+OUTPUT SCHEMA:
+{
+    "errors" [
+      {
+        "error_coode": "INVALID_TIMEFRAME",
+        "error_description: "Invalid timeframe used! Please select a valid timeframe!\nInput timeframe: 45\nAvailable timeframes: [90, 180, 270, ... , 810]" 
+      }
+    ]
+}
+
+```
+
+### GET /contratos/<contrato_uuid>
+
+```plain
+URL: /contratos/<contrato_uuid>
+MÉTODO: GET
+DESCRIÇÃO: Busca um contrato específicao pelo seu contrato_uuid
+
+EXEMPLO 1:
+GET /contratos/10ea3582-000d-4546-afdf-8677bc58e606
+
+OUTPUT SCHEMA:
+{
+    "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "cliente_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "contrato_uuid": "10ea3582-000d-4546-afdf-8677bc58e606",
+    "timeframe": 180,
+    "status": "Ativo",
+    "contrato_inicio_timestamp: "1728990000", // Outubro 15 2024 11:00:00
+}
+
+```
+
+### DELETE /contratos/<contrato_uuid>
+
+```plain
+URL: /contratos/<contrato_uuid>
+MÉTODO: DELETE
+DESCRIÇÃO: Deleta logicamente um contrato específico através de seu contrato_uuid
+
+EXEMPLO 1:
+DELETE /contratos/10ea3582-000d-4546-afdf-8677bc58e606
+
+OUTPUT SCHEMA:
+{
+    "instalacao_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "cliente_uuid": "84b4b063-58a4-4dab-bf4f-fd13954c328c",
+    "contrato_uuid": "10ea3582-000d-4546-afdf-8677bc58e606",
+    "timeframe": 180,
+    "status": "Cancelado",
+    "contrato_inicio_timestamp: "1728990000", // Outubro 15 2024 11:00:00
+}
+
+EXEMPLO 2:
+DELETE /contratos/10ea3582-000d-4546-afdf-8677bc58e606
+
+OUTPUT SCHEMA:
+{
+    "errors" [
+      {
+        "error_coode": "INVALID_DELETE_REQUEST",
+        "error_description: "This contract is already canceled!" 
+      }
+    ]
+}
+
+```
+
+## API de Consumo
+
+
+### POST /consumo
+
+```plain
+URL: /consumo
+MÉTODO: POST
+DESCRIÇÃO: Cria um novo registro de consumo a partir de um JSON
+
+EXEMPLO 1:
+POST /consumo
+
+INPUT SCHEMA:
+{
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "consumo_kwh: 410.90,
+    "medicao_timestamp": 1731284100 // November 11, 2024 00:15:00 AM
+}
+
+OUTPUT SCHEMA:
+{
+    "registro_consumo_uuid": "17a71709-5c16-4fc8-9517-0151bbf514a1",
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "consumo_kwh: 410.90,
+    "medicao_timestamp": 1731284100 // November 11, 2024 00:15:00 AM
+    "created_at": 1731284180 // November 11, 2024 00:16:20 AM
+}
+
+EXEMPLO 2:
+POST /consumo
+
+INPUT SCHEMA:
+{
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "consumo_kwh: 418.90,
+    "medicao_timestamp": 1731370500 // November 12, 2024 00:15:00 AM
+}
+
+OUTPUT SCHEMA:
+{
+    "registro_consumo_uuid": "64abe035-37a5-4382-b2ec-ae9961835b3b",
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "consumo_kwh: 418.90,
+    "medicao_timestamp": 1731370500 // November 12, 2024 00:15:00 AM
+    "created_at": 1731370590 // November 12, 2024 00:16:20 AM
+}
+```
+
+### GET /consumo/<instalacao_uuid>
+
+```plain
+
+URL: /consumo/<instalacao_uuid>
+MÉTODO: GET
+DESCRIÇÃO: Calcula o consumo de energia elétrica usando o mês corrente como referência. Para calcular o consumo de energia considere a seguinte formula:
+
+ConsumoMensal(mês) = (ÚltimoRegistroDoMês(mês) - PrimeiroRegistroDoMês(mês))
+ConsumoDiário(mês) = ConsumoMensal(mês)/(Número de dias entre a PrimeiroRegistroDoMês(mês) e ÚltimoRegistroDoMês(mês))
+PrimeiroRegistroDoMês(mês) = RegistrosDoMês(mês)[0]
+ÚltimoRegistroDoMês(mês) = RegistrosDoMês(mês)[RegistrosDoMês(mês).length - 1]
+RegistrosDoMês(mês) = Array com todas os registros de consumo do "mês" de referência, ordenado pelo medicao_timestamp.
+
+EXEMPLO 1:
+
+INPUT SCHEMA:
+GET /consumo/7da41106-5109-45f4-8d09-9ca405c33e5c
+
+
+OUPUT SCHEMA:
+{
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "timestamp_calculo": 1731445100 // November 12 2024 20:58:20 AM,
+    "dia_referencia": "12",
+    "mes_referencia": "Novembro",
+    "ano_referencia": "2024",
+    "dias_para_acabar_o_mes": "18",
+    "consumo_mensal_medio_kwh: 44.4,
+    "consumo_diario_medio_kwh: 3.7,
+    "consumo_mensal_estimado_kwh: 111.0
+}
+
+EXEMPLO 2:
+
+INPUT SCHEMA:
+GET /consumo/7da41106-5109-45f4-8d09-9ca405c33e5c
+
+
+OUPUT SCHEMA:
+{
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "timestamp_calculo": 1734485100 // November 18 2024 01:25:00 AM,
+    "dia_referencia": "18",
+    "mes_referencia": "Novembro",
+    "ano_referencia": "2024",
+    "dias_para_acabar_o_mes": "12",
+    "consumo_mensal_medio_kwh: 77.7,
+    "consumo_diario_medio_kwh: 4.27,
+    "consumo_mensal_estimado_kwh: 128.1
+}
+```
+
+
+## API de Registro de Produção 
+
+### POST /producao
+
+```plain
+URL: /producao
+MÉTODO: POST
+DESCRIÇÃO: Cria um novo registro de producao a partir de um JSON
+
+EXEMPLO 1:
+GET /producao/7da41106-5109-45f4-8d09-9ca405c33e5c
+
+INPUT SCHEMA:
+{
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "producao_kwh: 10.47,
+    "medicao_timestamp": 1731284100 // November 11, 2024 00:15:00 AM
+}
+
+OUTPUT SCHEMA:
+{
+    "registro_producao_uuid": "17a71709-5c16-4fc8-9517-0151bbf514a1",
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "producao_kwh: 10.47,
+    "medicao_timestamp": 1731284100 // November 11, 2024 00:15:00 AM
+    "created_at": 1731284180 // November 11, 2024 00:16:20 AM
+}
+
+EXEMPLO 2:
+GET /producao/7da41106-5109-45f4-8d09-9ca405c33e5c
+
+INPUT SCHEMA:
+{
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "producao_kwh: 15.51,
+    "medicao_timestamp": 1731370500 // November 12, 2024 00:15:00 AM
+}
+
+OUTPUT SCHEMA:
+{
+    "registro_producao_uuid": "64abe035-37a5-4382-b2ec-ae9961835b3b",
+    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
+    "producao_kwh: 15.51,
+    "medicao_timestamp": 1731370500 // November 12, 2024 00:15:00 AM
+    "created_at": 1731370590 // November 12, 2024 00:16:20 AM
+}
+```
+
 
 # Diretrizes para entrega do trabalho:
 
@@ -417,8 +735,12 @@ Serão aceitos grupos de 1 a 4 pessoas. A correção do código será feita leva
 
 # Atualizações
 
-- 12/11: Publicação versão 1
-- 13/11: Atualizado especificação das Entidades Cliente, Instalação e Contrato
+- 12/11: Publicação versão 1.
+- 13/11: Atualizado especificação das Entidades Cliente, Instalação e Contrato.
+- 15/11:
+  - Fiz uma pequena mudança no ítem 5 da seção [Projeto](./README.md#o-projeto).
+  - Terminei de escrever a especificação de todas as API's que precisam ser implementadas. Agora cada uma delas tem exemplos de entrada e saída.
+  - Diminuí o escopo da API de Registro de produção, não será mais necessário implementar o cálculo de produção elétrica mensal, apenas o registro de produção através do método **`POST /producao`**.
 
 
 # Referências úteis
